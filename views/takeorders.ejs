@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/takeorders.css" />
+    <title>Dashboard</title>
+  </head>
+  <body>
+    <%- include('partials/sidebar') %>
+
+      <!-- MAIN -->
+      <main>
+        <div class="order-container">
+          <!-- Order List Section -->
+          <div class="order-list">
+            <div class="order-header">
+              <h3>Order List</h3>
+              <button class="home-btn">Home</button>
+            </div>
+            <div class="order-input">
+              <label for="order-no">Order No.</label>
+              <input type="text" id="order-no" placeholder="Enter Order No." />
+            </div>
+            <table class="order-table">
+              <thead>
+                <tr>
+                  <th>Quantity</th>
+                  <th>Orders</th>
+                  <th>Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <button class="quantity-btn">-</button> 1
+                    <button class="quantity-btn">+</button>
+                  </td>
+                  <td>Item Name</td>
+                  <td>$0.00</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="order-total">
+              <strong>Total:</strong> <span>$0.00</span>
+            </div>
+          </div>
+
+          <!-- Product Section -->
+          <div class="product-section">
+            <h3>Products</h3>
+            <div class="categories">
+              <div class="category-list">
+                <button class="category-btn active">All</button>
+                <button class="category-btn">PC</button>
+                <button class="category-btn">Keyboards</button>
+                <button class="category-btn">Mouse</button>
+                <button class="category-btn">Bundles</button>
+              </div>
+              <div class="product-list">
+                <button class="product-btn">Camping Chair</button>
+                <button class="product-btn">Tent</button>
+                <button class="product-btn">Pillow</button>
+                <button class="product-btn">Board</button>
+                <button class="product-btn">Umbrella</button>
+                <button class="product-btn">Glasses</button>
+                <button class="product-btn">Tumbler</button>
+                <button class="product-btn">Helmet</button>
+                <button class="product-btn">Gear</button>
+              </div>
+            </div>
+            <div class="action-buttons">
+              <button class="pay-btn">Pay</button>
+              <button class="cancel-btn">Cancel</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Payment Modal -->
+        <div id="paymentModal" class="modal">
+          <div class="modal-content">
+            <h3>Payment</h3>
+            <label for="amount-payable">Amount Payable</label>
+            <input
+              type="text"
+              id="amount-payable"
+              placeholder="0.00"
+              readonly
+            />
+            <label for="amount-tendered">Amount Tendered</label>
+            <input type="text" id="amount-tendered" placeholder="0.00" />
+            <label for="change">Change</label>
+            <input type="text" id="change" placeholder="0.00" readonly />
+            <button class="pay-btn">Pay</button>
+            <button class="cancel-btn" id="closeModal">Cancel</button>
+          </div>
+        </div>
+      </main>
+      <!-- MAIN -->
+    </section>
+    <!-- NAVBAR -->
+
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="/js/dashboard.js"></script>
+
+    <script>
+      // Get modal elements
+      const modal = document.getElementById("paymentModal");
+      const payButton = document.querySelector(".pay-btn");
+      const closeModalButton = document.getElementById("closeModal");
+
+      // Show the modal when the Pay button is clicked
+      payButton.addEventListener("click", function () {
+        modal.style.display = "block";
+      });
+
+      // Hide the modal when the Cancel button is clicked
+      closeModalButton.addEventListener("click", function () {
+        modal.style.display = "none";
+      });
+
+      // Close the modal if user clicks outside of the modal
+      window.onclick = function (event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      };
+    </script>
+  </body>
+</html>
