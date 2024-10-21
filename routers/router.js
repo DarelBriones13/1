@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const { login } = require("../controllers/authController");
 const { saveCategory, getCategories } = require("../controllers/categoryController");
+const { User } = require('../models');
 const db = require("../models");
 
 const routes = express.Router();
@@ -92,6 +93,58 @@ routes.get("/bundles", (req, res) => {
 
 // Login route
 routes.post("/login", login);
+
+
+//USER MANAGEMENT
+// Get all users (for display)
+routes.get('/users/list', async (req, res) => {
+  const users = await User.findAll();
+  res.json(users); // Return the users as JSON
+});
+
+  
+// Add a new user
+routes.post('/users', async (req, res) => {
+  const { name, username, password, userType } = req.body;
+  try {
+    const newUser = await User.create({ name, username, password, userType });
+    res.json(newUser);
+  } catch (error) {
+    res.status(400).json({ error: 'Error creating user' });
+  }
+});
+
+// Fetch user by ID for editing
+routes.get('/users/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await User.findByPk(id);
+    if (user) {
+      res.json(user);
+    } else {
+      res.status(404).json({ error: 'User not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
+// Delete a user
+routes.delete('/users/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await User.findByPk(id);
+    if (user) {
+      await user.destroy();
+      res.json({ message: 'User deleted' });
+    } else {
+      res.status(404).json({ error: 'User not found' });
+    }
+  } catch (error) {
+    res.status(400).json({ error: 'Error deleting user' });
+  }
+});
 
 
 

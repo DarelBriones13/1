@@ -195,8 +195,7 @@ select {
 }
 
 
-/* Modal (Popup) container */
-/* Modal (Popup) container */
+/* Additional Modal Styles */
 .modal {
     display: none; /* Ensure the modal is hidden by default */
     position: fixed;
@@ -212,7 +211,6 @@ select {
     overflow: auto;
 }
 
-/* Modal content */
 .modal-content {
     background-color: #fefefe;
     padding: 20px;
@@ -222,7 +220,30 @@ select {
     border-radius: 10px;
     position: relative; /* Ensures the close button is positioned correctly */
     z-index: 1001;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Add shadow for better visibility */
 }
+
+/* Close Button */
+.close {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    color: #888; /* Light grey color */
+}
+
+.close:hover {
+    color: #000; /* Change color on hover for visibility */
+}
+
+/* Responsive Modal */
+@media (max-width: 768px) {
+    .modal-content {
+        width: 90%; /* Full width on small screens */
+    }
+}
+
 
 /* Form Styling */
 form label {

@@ -28,6 +28,7 @@
 	border-radius: 12px;
 	box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
 	border: 1px solid #e5e7eb;
+	height: 450px;
   }
   
   .category-list {
@@ -37,7 +38,36 @@
 	border-radius: 12px;
 	box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
 	border: 1px solid #e5e7eb;
+	height: 650px;
+	overflow: hidden;
   }
+
+  .btn-pagination {
+    background-color: #2563eb;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.btn-pagination:disabled {
+	background-color: #d1d5db;
+	cursor: not-allowed;
+}
+
+.pagination-controls {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-top: 20px;
+}
+
+#pagination-info {
+	font-size: 1rem;
+	color: #374151;
+}
+
   
   @media (max-width: 768px) {
 	.main-content {
@@ -210,5 +240,3 @@
     border: 1px solid #888;
     width: 80%; /* Could be more or less, depending on screen size */
 }
-
-  

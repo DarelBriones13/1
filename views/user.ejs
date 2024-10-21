@@ -8,6 +8,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/css/user.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>Dashboard</title>
   </head>
   <body>
@@ -50,27 +51,9 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>John Doe</td>
-                <td>johndoe</td>
-                <td>Admin</td>
-                <td>
-                  <button class="edit-btn"><i class="bx bxs-edit"></i></button>
-                  <button class="delete-btn"><i class="bx bxs-trash"></i></button>
-                </td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>Jane Smith</td>
-                <td>janesmith</td>
-                <td>User</td>
-                <td>
-                  <button class="edit-btn"><i class="bx bxs-edit"></i></button>
-                  <button class="delete-btn"><i class="bx bxs-trash"></i></button>
-                </td>
-              </tr>
+              <!-- Dynamic rows will be appended here by AJAX -->
             </tbody>
+            
           </table>
           
           <div class="pagination">
@@ -111,43 +94,41 @@
   </div>
 </div>
 
-<!-- Edit User Popup -->
-<div id="editUserModal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <h3>Edit User</h3>
-    <form id="editUserForm">
-      <input type="hidden" id="editUserId" name="id" />
-      
-      <label for="editName">Name</label>
-      <input type="text" id="editName" name="name" required />
-      
-      <label for="editUsername">Username</label>
-      <input type="text" id="editUsername" name="username" required />
-      
-      <label for="editPassword">Password</label>
-      <input type="password" id="editPassword" name="password" />
-      
-      <label for="editUserType">User Type</label>
-      <select id="editUserType" name="userType">
-        <option value="Staff">Staff</option>
-        <option value="Admin">Admin</option>
-      </select>
-      
-      <div class="button-group">
-        <button type="submit" class="save-btn">Save</button>
-        <button type="button" class="cancel-btn">Cancel</button>
+  <!-- Edit User Popup -->
+  <div id="editUserModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h3>Edit User</h3>
+      <form id="editUserForm">
+        <input type="hidden" id="editUserId" name="id" />
+
+        <label for="editName">Name</label>
+        <input type="text" id="editName" name="name" required />
+
+        <label for="editUsername">Username</label>
+        <input type="text" id="editUsername" name="username" required />
+
+        <label for="editPassword">Password</label>
+        <input type="password" id="editPassword" name="password" />
+
+        <label for="editUserType">User Type</label>
+        <select id="editUserType" name="userType">
+          <option value="Staff">Staff</option>
+          <option value="Admin">Admin</option>
+        </select>
+
+        <div class="button-group">
+          <button type="submit" class="save-btn">Update</button>
+          <button type="button" class="cancel-btn">Cancel</button>
+        </div>
+      </form>
     </div>
-    
-    </form>
   </div>
-</div>
 
 
     </section>
-
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="/js/dashboard.js"></script>
+    <script src="/js/user.js"></script>
     <script src="/js/userpopup.js"></script>
   </body>
 </html>

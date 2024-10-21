@@ -1,37 +1,107 @@
-// Function to fetch and display categories
+let currentPage = 1;
+let rowsPerPage = 5; // Default number of rows per page
+let totalCategories = 0; // This will store the total number of categories
+let allCategories = []; // This will hold all categories data
+let originalCategories = []; // This will store the unfiltered, original category list
+
+// Fetch categories and store them in the global variables
 function fetchCategories() {
-    fetch("/categories/list") // Adjust the route for fetching categories
+    fetch("/categories/list")
         .then(response => {
             if (!response.ok) {
                 throw new Error("Error fetching categories");
             }
             return response.json();
         })
-        .then(categories => {
-            const tbody = document.querySelector("tbody");
-            tbody.innerHTML = ""; // Clear existing rows
-            categories.forEach((category, index) => {
-                const row = document.createElement("tr");
-                row.innerHTML = `
-                    <td>${index + 1}</td>
-                    <td>${category.category_name} - ${category.category_description}</td>
-                    <td>
-                        <button class="btn-icon btn-edit" data-id="${category.category_id}">
-                            <i class="bx bx-edit-alt"></i>
-                        </button>
-                        <button class="btn-icon btn-delete">
-                            <i class="bx bx-trash"></i>
-                        </button>
-                    </td>
-                `;
-                tbody.appendChild(row); // Append new row
-            });
+        .then(data => {
+            originalCategories = data; // Store the original data
+            allCategories = [...originalCategories]; // Initialize allCategories with the original data
+            totalCategories = allCategories.length;
+            displayPage(currentPage); // Initially display the first page
         })
         .catch(error => {
             console.error("Error fetching categories:", error);
-            alert(error.message); // Show error message
+            alert(error.message);
         });
 }
+
+// Display a specific page of categories
+function displayPage(page) {
+    const tbody = document.querySelector("tbody");
+    tbody.innerHTML = ""; // Clear current content
+
+    // Calculate start and end indices for the current page
+    const start = (page - 1) * rowsPerPage;
+    const end = Math.min(start + rowsPerPage, totalCategories);
+
+    for (let i = start; i < end; i++) {
+        const category = allCategories[i];
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${i + 1}</td>
+            <td>${category.category_name} - ${category.category_description}</td>
+            <td>
+                <button class="btn-icon btn-edit" data-id="${category.category_id}">
+                    <i class="bx bx-edit-alt"></i>
+                </button>
+                <button class="btn-icon btn-delete" data-id="${category.category_id}">
+                    <i class="bx bx-trash"></i>
+                </button>
+            </td>
+        `;
+        tbody.appendChild(row);
+    }
+
+    // Update pagination info
+    document.getElementById("pagination-info").textContent =
+        `Showing ${start + 1} to ${end} of ${totalCategories} entries`;
+
+    // Disable or enable buttons based on the current page
+    document.getElementById("prev-button").disabled = page === 1;
+    document.getElementById("next-button").disabled = end === totalCategories;
+}
+
+// Event listener for pagination buttons
+document.getElementById("prev-button").addEventListener("click", () => {
+    if (currentPage > 1) {
+        currentPage--;
+        displayPage(currentPage);
+    }
+});
+
+document.getElementById("next-button").addEventListener("click", () => {
+    if (currentPage * rowsPerPage < totalCategories) {
+        currentPage++;
+        displayPage(currentPage);
+    }
+});
+
+// Change rows per page dynamically
+document.getElementById("entries-count").addEventListener("change", function () {
+    rowsPerPage = parseInt(this.value, 10);
+    currentPage = 1; // Reset to first page whenever rows per page changes
+    displayPage(currentPage);
+});
+
+// Search functionality
+document.getElementById("search").addEventListener("input", function () {
+    const searchTerm = this.value.toLowerCase();
+
+    if (searchTerm) {
+        // Filter based on search term
+        allCategories = originalCategories.filter(category => 
+            category.category_name.toLowerCase().includes(searchTerm) || 
+            category.category_description.toLowerCase().includes(searchTerm)
+        );
+    } else {
+        // Reset to the original categories list if search input is cleared
+        allCategories = [...originalCategories];
+    }
+
+    totalCategories = allCategories.length;
+    currentPage = 1; // Reset to the first page after search or reset
+    displayPage(currentPage);
+});
 
 // Handle form submission for saving a new category
 document.getElementById("categoryForm").addEventListener("submit", function (e) {
